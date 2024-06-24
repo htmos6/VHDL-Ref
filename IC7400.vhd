@@ -77,6 +77,11 @@ architecture Behavioral of IC7400 is
 
 begin
 
+	
+	s6.param1 <= '1';
+	s6.param2 <= x"5";
+
+
 	P_COMBINATIONAL : process (s0, state, input1_i, input2_i)
 	begin
 		if (s0 < 30) then
