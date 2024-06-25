@@ -49,6 +49,20 @@ end IC7400;
 
 architecture Behavioral of IC7400 is
 
+
+	component FullAdder is
+	port 
+	(
+		a_i : in std_logic;
+		b_i : in std_logic;
+		carry_i : in std_logic;
+		
+		out_o : out std_logic;
+		carry_o : out std_logic
+	);
+	end component;
+
+
 	constant c_constant1 : integer := 30;
 	constant c_timer_1ms_slim : integer := c_clkfreq / 1000;
 	constant c_constant2 : std_logic_vector (c_bitnum-1 downto 0) := (others => '0');
@@ -80,6 +94,22 @@ begin
 	
 	s6.param1 <= '1';
 	s6.param2 <= x"5";
+
+
+    -- for .. generate structure in vhdl
+	N_BIT_ADDER : for k in 0 to N-1 generate
+
+	n_bit_adder_k : FullAdder
+	port map 
+	(
+		a_i => a_i(k),
+		b_i => b_i(k),
+		carry_i => temp(k),
+		
+		out_o => sum(k),
+		carry_o => temp(k+1)
+	);
+	end generate N_BIT_ADDER;
 
 
 	P_COMBINATIONAL : process (s0, state, input1_i, input2_i)
